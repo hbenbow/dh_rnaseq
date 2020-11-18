@@ -45,7 +45,7 @@ rep_wise$test2<-ifelse(rep_wise$`2`>=0.5, 1,0)
 rep_wise$test3<-ifelse(rep_wise$`3`>=0.5, 1,0)
 rep_wise$Sum<-rep_wise$test1 + rep_wise$test2 + rep_wise$test3
 
-expressed<-rep_wise[(rep_wise$Sum >=2),]
+expressed<-rep_wise[(rep_wise$Sum >=1),]
 
 for(i in unique(expressed$Factor)){
   data<-expressed[(expressed$Factor==i),]
@@ -53,6 +53,7 @@ for(i in unique(expressed$Factor)){
   write.csv(data, file=paste("~/Documents/S_L_DH/data/", factor, ".csv", sep=""))
   assign(factor, data)
 }
+{
 G1<-rbind(C1G, T1G)
 G1<-G1[!(duplicated(G1$GeneID)),]
 G2<-rbind(C2G, T2G)
@@ -89,8 +90,58 @@ S2<-S2[!(duplicated(S2$GeneID)),]
 S3<-S3[!(duplicated(S3$GeneID)),]
 S4<-S4[!(duplicated(S4$GeneID)),]
 
+G1$Comparison<-"G1"
+G2$Comparison<-"G2"
+G3$Comparison<-"G3"
+G4$Comparison<-"G4"
+L1$Comparison<-"L1"
+L2$Comparison<-"L2"
+L3$Comparison<-"L3"
+L4$Comparison<-"L4"
+R1$Comparison<-"R1"
+R2$Comparison<-"R2"
+R3$Comparison<-"R3"
+R4$Comparison<-"R4"
+S1$Comparison<-"S1"
+S2$Comparison<-"S2"
+S3$Comparison<-"S3"
+S4$Comparison<-"S4"
 
+G1<-G1[,c(2, 10)]
+G2<-G2[,c(2, 10)]
+G3<-G3[,c(2, 10)]
+G4<-G4[,c(2, 10)]
+L1<-L1[,c(2, 10)]
+L2<-L2[,c(2, 10)]
+L3<-L3[,c(2, 10)]
+L4<-L4[,c(2, 10)]
+R1<-R1[,c(2, 10)]
+R2<-R2[,c(2, 10)]
+R3<-R3[,c(2, 10)]
+R4<-R4[,c(2, 10)]
+S1<-S1[,c(2, 10)]
+S2<-S2[,c(2, 10)]
+S3<-S3[,c(2, 10)]
+S4<-S4[,c(2, 10)]}
 
+all_filtered_lists<-rbind(G1,
+                          G2,
+                          G3,
+                          G4,
+                          L1,
+                          L2,
+                          L3,
+                          L4,
+                          R1,
+                          R2,
+                          R3,
+                          R4,
+                          S1,
+                          S2,
+                          S3,
+                          S4)
+
+write.csv(all_filtered_lists, file="~/Documents/S_L_DH/data/all_lists_filtered.csv", row.names = F)
 # check correlation of reps
 cor<-as.matrix(rep_wise[,c(3,4,5)])
 cor<-rcorr(cor)
