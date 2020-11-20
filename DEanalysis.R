@@ -134,8 +134,8 @@ all_sig_filtered<-na.omit(all_sig_filtered)
 table(all_sig$Cultivar, all_sig$Timepoint)
 table(all_sig_filtered$Cultivar, all_sig_filtered$Timepoint)
 
-write.csv(all_sig, "~/Documents/S_L_DH/data/all_significant_filtered.csv")
-
+write.csv(all_significant_filtered, "~/Documents/S_L_DH/data/DE_tests/together_filter.csv", row.names=F)
+write.csv(all_sig, "~/Documents/S_L_DH/data/together_no_filter.csv", row.names=F)
 T6<-all[(all$Timepoint==6),]
 T24<-all[(all$Timepoint==24),]
 T48<-all[(all$Timepoint==48),]
