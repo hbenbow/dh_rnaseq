@@ -1,7 +1,22 @@
+library(WGCNA)
+library(tximport)
+library(DESeq2)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(plyr)
+library(stringr)
+library(gplots)
+library(tidyr)
+library(Hmisc)
+library(corrplot)
+
 # Compare analyses
 
 sep_no_filter<-read.csv("~/Documents/S_L_DH/data/DE_tests/separate_no_filter.csv")
 sep_filter<-read.csv("~/Documents/S_L_DH/data/DE_tests/separate_filtered.csv")
+sep_filter_post<-read.csv("~/Documents/S_L_DH/data/DE_tests/separate_filtered_post.csv")
+
 together_no_filter<-read.csv("~/Documents/S_L_DH/data/DEGs_all_data.csv")
 together_filter<-read.csv("~/Documents/S_L_DH/data/DE_tests/together_no_filter.csv")
 
@@ -40,4 +55,4 @@ colnames(joined)<-c("Gene", "sep_no_filter",
                     "Together_no_filter")
 rownames(joined)<-joined$Gene
 joined$Gene<-NULL
-joined<-as.matrix(joined)
+
