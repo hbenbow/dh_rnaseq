@@ -45,7 +45,7 @@ rep_wise$test2<-ifelse(rep_wise$`2`>=0.5, 1,0)
 rep_wise$test3<-ifelse(rep_wise$`3`>=0.5, 1,0)
 rep_wise$Sum<-rep_wise$test1 + rep_wise$test2 + rep_wise$test3
 
-expressed<-rep_wise[(rep_wise$Sum >=1),]
+expressed<-rep_wise[(rep_wise$Sum >=2),]
 
 for(i in unique(expressed$Factor)){
   data<-expressed[(expressed$Factor==i),]
