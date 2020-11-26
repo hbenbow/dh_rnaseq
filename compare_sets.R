@@ -55,4 +55,3 @@ colnames(joined)<-c("Gene", "sep_no_filter",
                     "Together_no_filter")
 rownames(joined)<-joined$Gene
 joined$Gene<-NULL
-
