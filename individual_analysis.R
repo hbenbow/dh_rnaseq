@@ -24,6 +24,7 @@ colData$Rep<-as.factor(colData$Rep)
 colnames(colData)<-c("Sample", "Rep", "Treatment", "Timepoint", "Genotype", "Factor", "Condition", "Resistant")
 filter<-read.csv(file="~/Documents/S_L_DH/data/all_lists_filtered.csv")
 counts<-txi.kallisto.tsv$counts
+tpm<-txi.kallisto.tsv$abundance
 
 colData<-colData%>% 
   mutate(T2=case_when(
@@ -56,9 +57,8 @@ for(set in unique(filter$Comparison)){
   
 }
 all_filtered<-as.data.frame(do.call(rbind.data.frame, degs_filtered))
-all_filtered<-all_filtered[(all_filtered$padj<0.05),]
-all_filtered<-na.omit(all_filtered)
-
+all_filtered_sig<-all_filtered[(all_filtered$padj<0.05),]
+all_filtered_sig<-na.omit(all_filtered_sig)
 
 
 all_filtered<-all_filtered%>% 
@@ -101,17 +101,7 @@ all_filtered<-all_filtered%>%
     comparison == "S4" ~ "Susceptible"
   ))
 
-
-
-table(all_filtered$Genotype, all_filtered$Timepoint)
-
-
-
-write.csv(all_filtered, "~/Documents/S_L_DH/data/DE_tests/separate_filtered2.csv")
-
-
-
-all_sig<-all_sig%>% 
+all_filtered_sig<-all_filtered_sig%>% 
   mutate(Timepoint=case_when(
     comparison == "G1" ~ 6,
     comparison == "G2" ~ 24,
@@ -131,7 +121,7 @@ all_sig<-all_sig%>%
     comparison == "S4" ~ 96
   ))
 
-all_sig<-all_sig%>% 
+all_filtered_sig<-all_filtered_sig%>% 
   mutate(Genotype=case_when(
     comparison == "G1" ~ "Stigg",
     comparison == "G2" ~ "Stigg",
@@ -150,8 +140,20 @@ all_sig<-all_sig%>%
     comparison == "S3" ~ "Susceptible",
     comparison == "S4" ~ "Susceptible"
   ))
-table(all_sig$Genotype, all_sig$Timepoint)
 
-all_sig_nofilter<-all_sig
-write.csv(all_sig_nofilter, "DE_tests/separate_no_filter.csv")
+
+table(all_filtered$Genotype, all_filtered$Timepoint)
+table(all_filtered_sig$Genotype, all_filtered_sig$Timepoint)
+
+degs<-as.character(unique(all_filtered_sig$row))
+degs_all_data<-subset(all_filtered, all_filtered$row %in% degs)
+
+degs_all_data_M<-degs_all_data[c(1, 3, 8)]
+degs_all_data_M<-spread(degs_all_data_M, key="comparison", value="log2FoldChange", fill=0)
+
+write.csv(all_filtered, "~/Documents/S_L_DH/data/DE_tests/separate_filtered.csv")
+write.csv(degs_all_data_M, file="DEGs_all_data_matrix.csv")
+write.csv(degs_all_data, file="DEGs_all_data.csv")
+
+
 
